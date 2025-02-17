@@ -10,8 +10,15 @@ export const AppDataSource = new DataSource({
     password: process.env.DB_PASSWORD,
     database: process.env.DB_NAME,
     synchronize: false,
-    logging: process.env.NODE_ENV === 'development' ? true : false ,
+    logging: process.env.NODE_ENV === 'development' ? true : false,
     entities: ["src/entities/*.ts"],
     migrations: ["src/database/migrations/*.ts"],
     subscribers: [],
 })
+
+export const connectDatabase = async () => {
+    if (!AppDataSource.isInitialized) {
+        await AppDataSource.initialize();
+        console.log("📦 Conexão com o banco de dados estabelecida!");
+    }
+};
